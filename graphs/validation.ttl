@@ -1,0 +1,34 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ifc: <http://ifc.org/object/#> .
+@prefix ex: <http://example.org/#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dica: <https://w3id.org/digitalconstruction/0.5/Agents#> .
+@prefix dice: <https://w3id.org/digitalconstruction/0.5/Entities#> .
+@prefix dicm: <https://w3id.org/digitalconstruction/0.5/Materials#> .
+@prefix dicp: <https://w3id.org/digitalconstruction/0.5/Processes#> .
+@prefix dmn: <http://www.DMN-RDFS.org/DMN#> .
+@prefix ocqa: <https://w3id.org/ocqa#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:DMNObjectShape a sh:NodeShape ;
+    sh:targetClass dmn:Objects ;
+    sh:property [
+        sh:path dmn:hasActivity ;
+        sh:minCount 1 ;
+        sh:message "Each dmn:Object must have at least one dmn:hasActivity property." ;
+    ] ;
+    sh:property [
+        sh:path dicm:hasMaterial ;
+        sh:minCount 1 ;
+        sh:message "Each dmn:Object must have at least one dicm:hasMaterial property." ;
+    ] .
+ex:DMNActivityShape a sh:NodeShape ;
+    sh:targetClass dicp:Activity ;
+    sh:property [
+        sh:path dmn:hasStartDate ;
+        sh:minCount 1 ;
+        sh:message "Each dicp:Activity must have at least one dmn:hasStartDate property." ;
+    ] .

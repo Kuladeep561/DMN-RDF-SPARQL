@@ -1,0 +1,71 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix ifc: <http://ifc.org/object/#> .
+@prefix ex: <http://example.org/#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix dica: <https://w3id.org/digitalconstruction/0.5/Agents#> .
+@prefix dice: <https://w3id.org/digitalconstruction/0.5/Entities#> .
+@prefix dicm: <https://w3id.org/digitalconstruction/0.5/Materials#> .
+@prefix dicp: <https://w3id.org/digitalconstruction/0.5/Processes#> .
+@prefix dmn: <http://www.DMN-RDFS.org/DMN#> .
+@prefix ocqa: <https://w3id.org/ocqa#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+ex:ConcreteWaterCuringRule
+    a sh:NodeShape ;
+    sh:target[
+        a sh:SPARQLTarget;
+          sh:comment "Select all of inspection of Water_curing";
+            sh:select """
+                PREFIX sh: <http://www.w3.org/ns/shacl#>
+                PREFIX ifc: <http://ifc.org/object/#>
+                PREFIX ex: <http://example.org/#>
+                PREFIX dcterms: <http://purl.org/dc/terms/>
+                PREFIX dica: <https://w3id.org/digitalconstruction/0.5/Agents#>
+                PREFIX dice: <https://w3id.org/digitalconstruction/0.5/Entities#> 
+                PREFIX dicm: <https://w3id.org/digitalconstruction/0.5/Materials#>
+                PREFIX dicp: <https://w3id.org/digitalconstruction/0.5/Processes#>
+                PREFIX dmn: <http://www.DMN-RDFS.org/DMN#>
+                PREFIX ocqa: <https://w3id.org/ocqa#>
+                PREFIX owl: <http://www.w3.org/2002/07/owl#>
+                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+                SELECT ?this 
+                WHERE {
+                    ?this a ocqa:Inspection .
+                }        
+            """;
+    ] ;  
+    
+    sh:rule [
+        a sh:SPARQLRule ;
+        sh:construct """
+            PREFIX sh: <http://www.w3.org/ns/shacl#>
+            PREFIX ifc: <http://ifc.org/object/#>
+            PREFIX ex: <http://example.org/#>
+            PREFIX dcterms: <http://purl.org/dc/terms/>
+            PREFIX dica: <https://w3id.org/digitalconstruction/0.5/Agents#>
+            PREFIX dice: <https://w3id.org/digitalconstruction/0.5/Entities#> 
+            PREFIX dicm: <https://w3id.org/digitalconstruction/0.5/Materials#>
+            PREFIX dicp: <https://w3id.org/digitalconstruction/0.5/Processes#>
+            PREFIX dmn: <http://www.DMN-RDFS.org/DMN#>
+            PREFIX ocqa: <https://w3id.org/ocqa#>
+            PREFIX owl: <http://www.w3.org/2002/07/owl#>
+            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>        
+
+            CONSTRUCT {
+                ?buildingElement ocqa:hasInspection ?this .
+            }
+            WHERE {
+                ?buildingElement dicm:hasMaterial ex:Concrete ;
+                    ex:hasActivity ex:Water_Curing .
+            }
+        """ ;
+    ] ;
+.
