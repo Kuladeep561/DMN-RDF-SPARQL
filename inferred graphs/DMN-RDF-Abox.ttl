@@ -1,0 +1,58 @@
+@prefix dica: <https://w3id.org/digitalconstruction/0.5/Agents#> .
+@prefix dice: <https://w3id.org/digitalconstruction/0.5/Entities#> .
+@prefix dicm: <https://w3id.org/digitalconstruction/0.5/Materials#> .
+@prefix dicp: <https://w3id.org/digitalconstruction/0.5/Processes#> .
+@prefix dmn: <http://www.DMN-RDF.org/DMN#> .
+@prefix ocqa: <https://w3id.org/ocqa#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+dmn:Concrete a dicm:CompositeMaterial ;
+    dmn:hasActivity dmn:Water_Curing .
+
+dmn:Inspection_minimum-curing-period a ocqa:Inspection ;
+    dmn:hasCodeOfConduct dmn:IS-456 ;
+    dmn:hasEndtDate "2023-03-17T00:00:00+00:00"^^xsd:dateTime ;
+    dmn:hasFrequency "oneTime"^^xsd:string ;
+    dmn:hasLocation dmn:At-workingSite ;
+    dmn:hasStartDate "2023-03-17T00:00:00+00:00"^^xsd:dateTime ;
+    rdfs:comment "Minimum curing period is 7 days"^^xsd:string ;
+    dica:hasApprover dmn:SiteEngineer ;
+    dica:hasResponsibleAgent dmn:Supervisor ;
+    ocqa:hasInspectionProcedure dmn:asPer_IS-456 .
+
+dmn:Inspection_pH-value-of-water a ocqa:Inspection ;
+    dmn:hasCodeOfConduct dmn:IS-456 ;
+    dmn:hasEndtDate "2023-03-17T00:00:00+00:00"^^xsd:dateTime ;
+    dmn:hasFrequency "oneTime"^^xsd:string ;
+    dmn:hasLocation dmn:At-workingSite ;
+    dmn:hasStartDate "2023-03-17T00:00:00+00:00"^^xsd:dateTime ;
+    rdfs:comment "Permissible pH value is between 6 to 8"^^xsd:string ;
+    dica:hasApprover dmn:SiteEngineer ;
+    dica:hasResponsibleAgent dmn:Supervisor ;
+    ocqa:hasInspectionProcedure dmn:asPer_IS-456 .
+
+dmn:Inspection_water-quality-for-foreign-material a ocqa:Inspection ;
+    dmn:hasCodeOfConduct dmn:IS-456 ;
+    dmn:hasEndtDate "2023-03-17T00:00:00+00:00"^^xsd:dateTime ;
+    dmn:hasFrequency "oneTime"^^xsd:string ;
+    dmn:hasLocation dmn:At-workingSite ;
+    dmn:hasStartDate "2023-03-17T00:00:00+00:00"^^xsd:dateTime ;
+    rdfs:comment "Should be free from foreign material"^^xsd:string ;
+    dica:hasApprover dmn:SiteEngineer ;
+    dica:hasResponsibleAgent dmn:Supervisor ;
+    ocqa:hasInspectionProcedure dmn:asPer_IS-456 .
+
+dmn:Water_Curing a dicp:Activity ;
+    dmn:hasStartDate "2023-03-17T00:00:00+00:00"^^xsd:dateTime .
+
+dmn:At-workingSite a dice:Location .
+
+dmn:IS-456 a dmn:ISCode .
+
+dmn:SiteEngineer a dica:Agent .
+
+dmn:Supervisor a dica:Agent .
+
+dmn:asPer_IS-456 a ocqa:InspectionProcedure .
+

@@ -1,0 +1,32 @@
+@prefix ifc: <http://ifc.org/object/#> .
+@prefix ex: <http://example.org/#> .
+@prefix dicm: <https://w3id.org/digitalconstruction/0.5/Materials#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ocqa: <https://w3id.org/ocqa#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+
+ifc:ifc_slab_1234 a ex:Objects ;
+    ex:hasActivity ex:Water_Curing ;
+    dicm:hasMaterial ex:Concrete .
+ifc:ifc_slab_1235 a ex:Objects ;
+    ex:hasActivity ex:Water_Curing ;
+    dicm:hasMaterial ex:Concrete .
+ifc:ifc_slab_1236 a ex:Objects ;
+    ex:hasActivity ex:Water_Curing ;
+    dicm:hasMaterial ex:Concrete .
+
+ifc:ifc_slab_1237 a ex:Objects ;
+    ex:hasActivity ex:Water_Curing ;
+    dicm:hasMaterial ex:Concrete .
+
+ifc:ifc_slab_1238 a ex:Objects ;
+    ex:hasActivity ex:Water_Curing .
+
+###  https://w3id.org/digitalconstruction/0.5/Materials#hasMaterial
+dicm:hasMaterial rdf:type owl:ObjectProperty .
+
+###  http://example.org/#hasMaterial
+ex:hasActivity rdf:type owl:ObjectProperty .
