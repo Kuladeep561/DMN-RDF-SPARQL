@@ -1,18 +1,23 @@
+
 from rdflib import *
 from pyshacl import validate
-from read_DMN_XML import *
+from DMN_reader import *
 from shacl_validation import *
 
 
 
+
 #parse DMN table as xml
-dmn_filepath = r"C:\Users\kuk\OneDrive - Technische Universität Ilmenau\Thesis\Camunda\curinginspections_2.dmn"
+dmn_filepath = r"C:\Users\kuk\Downloads\curinginspections-2-dmn.dmn"
 parser = DMNParser(dmn_filepath)
 
 #get DMN hit policy
 hit_policy = parser.extract_hit_policy()
 
-inputs, outputs = parser.extract_text_between_parentheses()
+inputs, outputs = parser.extract_inputs_outputs()
+
+inputs, outputs = parser.FEEL_converter(inputs, outputs)
+
 
 
 if (hit_policy.lower() == "collect"):
@@ -43,7 +48,7 @@ if (hit_policy.lower() == "collect"):
     hasCodeOfConduct = ns['dmn'].hasCodeOfConduct
     hasActivity = ns['dmn'].hasActivity
     hasStartDate = ns['dmn'].hasStartDate
-    hasEndtDate = ns['dmn'].hasEndtDate
+    hasEndDate = ns['dmn'].hasEndDate
     hasResponsibleAgent = ns['dica'].hasResponsibleAgent
     hasApprover = ns['dica'].hasApprover
     hasFrequency = ns['dmn'].hasFrequency
@@ -74,7 +79,7 @@ if (hit_policy.lower() == "collect"):
 
         dmn_Abox.add((ns['dmn'][inspect], hasFrequency, Literal(outputs.get('hasFrequency')[i],datatype=XSD.string)))
         dmn_Abox.add((ns['dmn'][inspect], hasStartDate, Literal(outputs.get('hasInspectionStartDate')[i].strip('/"'), datatype=XSD.dateTime)))
-        dmn_Abox.add((ns['dmn'][inspect], hasEndtDate, Literal(outputs.get('hasInspectionEndDate')[i].strip('/"'), datatype=XSD.dateTime)))
+        dmn_Abox.add((ns['dmn'][inspect], hasEndDate, Literal(outputs.get('hasInspectionEndDate')[i].strip('/"'), datatype=XSD.dateTime)))
 
         
         loc = outputs['hasLocation'][i]

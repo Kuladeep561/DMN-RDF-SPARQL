@@ -2,6 +2,8 @@ import xml.etree.ElementTree as ET
 import re
 import numpy as np
 import pandas as pd
+from FEEL_expression_converter import *
+
 
 class DMNParser:
     def __init__(self, filepath):
@@ -65,6 +67,13 @@ class DMNParser:
                 output_val[key][i] = val.strip('/"')
         return input_val, output_val
 
+    def FEEL_converter(self, input_val=None, output_val=None):
+
+        input_val,output_val = self.strip_quotes()
+
+        final_inputs,final_outputs = update_output_data(input_val,output_val)
+
+        return final_inputs, final_outputs
     def extract_text_between_parentheses(self, input_val=None, output_val=None):
 
         self.strip_quotes()
@@ -93,9 +102,9 @@ class DMNParser:
         self.extract_text_between_parentheses()
 
         if input_val is None:
-            input_val = self.inputs
+            input_val = self.final_inputs
         if output_val is None:
-            output_val = self.outputs
+            output_val = self.final_outputs
         df_inputs = pd.DataFrame.from_dict(input_val)
         df_outputs = pd.DataFrame.from_dict(output_val)
 
