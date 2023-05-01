@@ -17,7 +17,7 @@ hit_policy = parser.extract_hit_policy()
 inputs, outputs = parser.extract_inputs_outputs()
 
 inputs, outputs = parser.FEEL_converter(inputs, outputs)
-
+# inputs, outputs =parser.extract_text_between_parentheses()
 
 
 if (hit_policy.lower() == "collect"):
