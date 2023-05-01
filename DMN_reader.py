@@ -152,7 +152,7 @@ class DMNParser:
 
     def dmn_as_dataframe(self, input_val=None, output_val=None):
 
-        self.extract_text_between_parentheses()
+        self.FEEL_converter()
 
         if input_val is None:
             input_val = self.final_inputs
