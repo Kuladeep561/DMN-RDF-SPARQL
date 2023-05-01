@@ -8,7 +8,7 @@ from shacl_validation import *
 
 
 #parse DMN table as xml
-dmn_filepath = r"C:\Users\kuk\Downloads\curinginspections-2-dmn.dmn"
+dmn_filepath = r"C:\Users\kuk\OneDrive - Technische Universität Ilmenau\Thesis\Camunda\curinginspections_3.dmn"
 parser = DMNParser(dmn_filepath)
 
 #get DMN hit policy
