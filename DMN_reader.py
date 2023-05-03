@@ -45,30 +45,21 @@ class DMNParser:
             # Extract input entries
             allinput_entries = rule.findall('.//xmldmn:inputEntry//xmldmn:text', self.xml_namespace)
             for i, txt in enumerate(allinput_entries):
-                self.inputs[self.input_variables[i]].append(txt.text)
+                if txt.text is None or txt.text.strip() == '':
+                    self.inputs[self.input_variables[i]].append('undefined')
+                else:
+                    self.inputs[self.input_variables[i]].append(txt.text.strip('\'"'))
 
             # Extract output entries
             alloutput_entries = rule.findall('.//xmldmn:outputEntry//xmldmn:text', self.xml_namespace)
             for i, txt in enumerate(alloutput_entries):
-                self.outputs[self.output_variables[i]].append(txt.text)
+                if txt.text is None or txt.text.strip() == '':
+                    raise ValueError("Output variables should not be empty")
+                else:
+                    self.outputs[self.output_variables[i]].append(txt.text.strip('\'"'))
 
         return self.inputs, self.outputs
     
-    def strip_quotes(self, input_val=None, output_val=None):
-        self.extract_inputs_outputs()
-
-        if input_val is None:
-            input_val = self.inputs
-        if output_val is None:
-            output_val = self.outputs
-        for key in input_val:
-            for i, val in enumerate(input_val[key]):
-                input_val[key][i] = val.strip('/"')
-
-        for key in output_val:
-            for i, val in enumerate(output_val[key]):
-                output_val[key][i] = val.strip('/"')
-        return input_val, output_val
 
     def is_feel_expression(self,expression: str) -> bool:
         return "date and time(" in expression
@@ -78,9 +69,9 @@ class DMNParser:
     def FEEL_converter(self, input_data: Dict[str, List[str]] = None, output_data: Dict[str, List[str]] = None) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
         
         if input_data is None and output_data is None:      
-            input_data, output_data = self.strip_quotes(self.inputs, self.outputs)
+            input_data, output_data = self.inputs, self.outputs
         else:
-              input_data, output_data = self.strip_quotes(input_data, output_data)
+              input_data, output_data = input_data, output_data
 
         updated_output_data = {key: [] for key in output_data.keys()}
         max_length = max(len(value_list) for value_list in output_data.values())
@@ -128,8 +119,6 @@ class DMNParser:
     
     
     def extract_text_between_parentheses(self, input_val=None, output_val=None):
-
-        self.strip_quotes()
 
         if input_val is None:
             input_val = self.inputs
