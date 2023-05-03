@@ -3,7 +3,7 @@
 @prefix dice: <https://w3id.org/digitalconstruction/0.5/Entities#> .
 @prefix dicm: <https://w3id.org/digitalconstruction/0.5/Materials#> .
 @prefix dicp: <https://w3id.org/digitalconstruction/0.5/Processes#> .
-@prefix dmn: <http://www.DMN-RDF.org/DMN#> .
+@prefix dmn1: <http://www.DMN-RDF.org/DMN#> .
 @prefix ex: <http://example.org/#> .
 @prefix ifc: <http://ifc.org/object/#> .
 @prefix ocqa: <https://w3id.org/ocqa#> .
@@ -19,37 +19,37 @@ ex:hasActivity a owl:ObjectProperty .
 ifc:ifc_slab_1234 a ex:Objects ;
     ex:hasActivity ex:Water_Curing ;
     dicm:hasMaterial ex:Concrete ;
-    ocqa:hasInspection dmn:Inspection_minimum-curing-period,
-        dmn:Inspection_pH-value-of-water,
-        dmn:Inspection_water-quality-for-foreign-material .
+    ocqa:hasInspection dmn1:Inspection_minimum-curing-period,
+        dmn1:Inspection_pH-value-of-water,
+        dmn1:Inspection_water-quality-for-foreign-material .
 
 ifc:ifc_slab_1235 a ex:Objects ;
     ex:hasActivity ex:Water_Curing ;
     dicm:hasMaterial ex:Concrete ;
-    ocqa:hasInspection dmn:Inspection_minimum-curing-period,
-        dmn:Inspection_pH-value-of-water,
-        dmn:Inspection_water-quality-for-foreign-material .
+    ocqa:hasInspection dmn1:Inspection_minimum-curing-period,
+        dmn1:Inspection_pH-value-of-water,
+        dmn1:Inspection_water-quality-for-foreign-material .
 
 ifc:ifc_slab_1236 a ex:Objects ;
     ex:hasActivity ex:Water_Curing ;
     dicm:hasMaterial ex:Concrete ;
-    ocqa:hasInspection dmn:Inspection_minimum-curing-period,
-        dmn:Inspection_pH-value-of-water,
-        dmn:Inspection_water-quality-for-foreign-material .
+    ocqa:hasInspection dmn1:Inspection_minimum-curing-period,
+        dmn1:Inspection_pH-value-of-water,
+        dmn1:Inspection_water-quality-for-foreign-material .
 
 ifc:ifc_slab_1237 a ex:Objects ;
     ex:hasActivity ex:Water_Curing ;
     dicm:hasMaterial ex:Concrete ;
-    ocqa:hasInspection dmn:Inspection_minimum-curing-period,
-        dmn:Inspection_pH-value-of-water,
-        dmn:Inspection_water-quality-for-foreign-material .
+    ocqa:hasInspection dmn1:Inspection_minimum-curing-period,
+        dmn1:Inspection_pH-value-of-water,
+        dmn1:Inspection_water-quality-for-foreign-material .
 
 ifc:ifc_slab_1238 a ex:Objects ;
     ex:hasActivity ex:Water_Curing .
 
 dcterms:description a owl:AnnotationProperty .
 
-dmn: a owl:Ontology ;
+dmn1: a owl:Ontology ;
     dcterms:creator "Kuladeep Karimpati" ;
     dcterms:description "DMN to RDF." ;
     dcterms:title "DMN to RDF" ;
@@ -58,24 +58,28 @@ dmn: a owl:Ontology ;
     owl:versionIRI <http://www.DMN-RDF.org/DMN/1.0> ;
     owl:versionInfo 1.0 .
 
-dmn:Concrete a dicm:CompositeMaterial ;
-    dmn:hasActivity dmn:Water_Curing .
+dmn1:Concrete a dicm:CompositeMaterial ;
+    dmn1:hasActivity dmn1:Water_Curing .
 
-dmn:hasActivity a owl:ObjectProperty ;
+dmn1:ISCode a owl:Class ;
+    dcterms:description "Indian standard code ."^^xsd:string ;
+    rdfs:subClassOf dmn1:Norms .
+
+dmn1:hasActivity a owl:ObjectProperty ;
     rdfs:range dicp:Activity .
 
-dmn:hasCodeOfConduct a owl:ObjectProperty ;
-    rdfs:range dmn:Norms .
+dmn1:hasCodeOfConduct a owl:ObjectProperty ;
+    rdfs:range dmn1:Norms .
 
-dmn:hasEndDate a owl:DatatypeProperty .
+dmn1:hasEndDate a owl:DatatypeProperty .
 
-dmn:hasFrequency a owl:DatatypeProperty .
+dmn1:hasFrequency a owl:DatatypeProperty .
 
-dmn:hasLocation a owl:ObjectProperty ;
+dmn1:hasLocation a owl:ObjectProperty ;
     rdfs:domain dice:Location ;
     rdfs:range dice:Location .
 
-dmn:hasStartDate a owl:DatatypeProperty .
+dmn1:hasStartDate a owl:DatatypeProperty .
 
 owl:minQualifiedCardinality a owl:AnnotationProperty .
 
@@ -113,12 +117,8 @@ ocqa:hasInspectionProcedure a owl:ObjectProperty ;
     rdfs:range ocqa:InspectionProcedure ;
     rdfs:subPropertyOf ocqa:hasProcedure .
 
-dmn:ISCode a owl:Class ;
-    dcterms:description "Indian standard code ."^^xsd:string ;
-    rdfs:subClassOf dmn:Norms .
-
-dmn:Water_Curing a dicp:Activity ;
-    dmn:hasStartDate "2023-03-17T00:00:00+00:00"^^xsd:dateTime .
+dmn1:Water_Curing a dicp:Activity ;
+    dmn1:hasStartDate "2023-03-17T00:00:00+00:00"^^xsd:dateTime .
 
 dica:isAgentIn a owl:ObjectProperty .
 
@@ -152,7 +152,7 @@ ocqa:hasProcedure a owl:ObjectProperty ;
     rdfs:domain dicp:Activity ;
     rdfs:range ocqa:Procedure .
 
-dmn:Norms a owl:Class ;
+dmn1:Norms a owl:Class ;
     dcterms:description "A building code is a set of rules that specify the standards for constructed objects such as buildings and non-building structures ."^^xsd:string .
 
 dica:hasAgent a owl:ObjectProperty ;
@@ -166,15 +166,13 @@ dice:Process a owl:Class .
 
 ocqa:InspectionProcedure a owl:Class .
 
-dmn:At-workingSite a dice:Location .
+dmn1:At-workingSite a dice:Location .
 
-dmn:IS-456 a dmn:ISCode .
+dmn1:SiteEngineer a dica:Agent .
 
-dmn:SiteEngineer a dica:Agent .
+dmn1:Supervisor a dica:Agent .
 
-dmn:Supervisor a dica:Agent .
-
-dmn:asPer_IS-456 a ocqa:InspectionProcedure .
+dmn1:asPer_IS-456 a ocqa:InspectionProcedure .
 
 dica:Agent a owl:Class .
 
@@ -200,38 +198,38 @@ dicp:Activity a owl:Class ;
     rdfs:comment "A process that is intentionally performed by an agent." ;
     rdfs:subClassOf dice:Process .
 
-dmn:Inspection_minimum-curing-period a ocqa:Inspection ;
-    dmn:hasCodeOfConduct dmn:IS-456 ;
-    dmn:hasEndDate "2023-03-18T00:00:00+00:00"^^xsd:dateTime ;
-    dmn:hasFrequency "oneTime"^^xsd:string ;
-    dmn:hasLocation dmn:At-workingSite ;
-    dmn:hasStartDate "2023-03-16T00:00:00+00:00"^^xsd:dateTime ;
+dmn1:Inspection_minimum-curing-period a ocqa:Inspection ;
+    dmn1:hasCodeOfConduct dmn1:IS-456 ;
+    dmn1:hasEndDate "2023-03-18T00:00:00+00:00"^^xsd:dateTime ;
+    dmn1:hasFrequency "oneTime"^^xsd:string ;
+    dmn1:hasLocation dmn1:At-workingSite ;
+    dmn1:hasStartDate "2023-03-16T00:00:00+00:00"^^xsd:dateTime ;
     rdfs:comment "Minimum curing period is 7 days"^^xsd:string ;
-    dica:hasApprover dmn:SiteEngineer ;
-    dica:hasResponsibleAgent dmn:Supervisor ;
-    ocqa:hasInspectionProcedure dmn:asPer_IS-456 .
+    dica:hasApprover dmn1:SiteEngineer ;
+    dica:hasResponsibleAgent dmn1:Supervisor ;
+    ocqa:hasInspectionProcedure dmn1:asPer_IS-456 .
 
-dmn:Inspection_pH-value-of-water a ocqa:Inspection ;
-    dmn:hasCodeOfConduct dmn:IS-456 ;
-    dmn:hasEndDate "2023-03-18T00:00:00+00:00"^^xsd:dateTime ;
-    dmn:hasFrequency "oneTime"^^xsd:string ;
-    dmn:hasLocation dmn:At-workingSite ;
-    dmn:hasStartDate "2023-03-16T00:00:00+00:00"^^xsd:dateTime ;
+dmn1:Inspection_pH-value-of-water a ocqa:Inspection ;
+    dmn1:hasCodeOfConduct dmn1:IS-456 ;
+    dmn1:hasEndDate "2023-03-18T00:00:00+00:00"^^xsd:dateTime ;
+    dmn1:hasFrequency "oneTime"^^xsd:string ;
+    dmn1:hasLocation dmn1:At-workingSite ;
+    dmn1:hasStartDate "2023-03-16T00:00:00+00:00"^^xsd:dateTime ;
     rdfs:comment "Permissible pH value is between 6 to 8"^^xsd:string ;
-    dica:hasApprover dmn:SiteEngineer ;
-    dica:hasResponsibleAgent dmn:Supervisor ;
-    ocqa:hasInspectionProcedure dmn:asPer_IS-456 .
+    dica:hasApprover dmn1:SiteEngineer ;
+    dica:hasResponsibleAgent dmn1:Supervisor ;
+    ocqa:hasInspectionProcedure dmn1:asPer_IS-456 .
 
-dmn:Inspection_water-quality-for-foreign-material a ocqa:Inspection ;
-    dmn:hasCodeOfConduct dmn:IS-456 ;
-    dmn:hasEndDate "2023-03-18T00:00:00+00:00"^^xsd:dateTime ;
-    dmn:hasFrequency "oneTime"^^xsd:string ;
-    dmn:hasLocation dmn:At-workingSite ;
-    dmn:hasStartDate "2023-03-16T00:00:00+00:00"^^xsd:dateTime ;
+dmn1:Inspection_water-quality-for-foreign-material a ocqa:Inspection ;
+    dmn1:hasCodeOfConduct dmn1:IS-456 ;
+    dmn1:hasEndDate "2023-03-18T00:00:00+00:00"^^xsd:dateTime ;
+    dmn1:hasFrequency "oneTime"^^xsd:string ;
+    dmn1:hasLocation dmn1:At-workingSite ;
+    dmn1:hasStartDate "2023-03-16T00:00:00+00:00"^^xsd:dateTime ;
     rdfs:comment "Should be free from foreign material"^^xsd:string ;
-    dica:hasApprover dmn:SiteEngineer ;
-    dica:hasResponsibleAgent dmn:Supervisor ;
-    ocqa:hasInspectionProcedure dmn:asPer_IS-456 .
+    dica:hasApprover dmn1:SiteEngineer ;
+    dica:hasResponsibleAgent dmn1:Supervisor ;
+    ocqa:hasInspectionProcedure dmn1:asPer_IS-456 .
 
 ocqa:Inspection a owl:Class ;
     rdfs:subClassOf ocqa:Determination .

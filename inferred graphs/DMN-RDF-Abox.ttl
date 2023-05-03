@@ -48,8 +48,6 @@ dmn:Water_Curing a dicp:Activity ;
 
 dmn:At-workingSite a dice:Location .
 
-dmn:IS-456 a dmn:ISCode .
-
 dmn:SiteEngineer a dica:Agent .
 
 dmn:Supervisor a dica:Agent .
