@@ -1,8 +1,9 @@
 
 from rdflib import *
 from pyshacl import validate
-from DMN_reader import *
-from shacl_validation import *
+from pylib.DMN_reader import *
+from pylib.shacl_validation import *
+from pylib.init_classes_and_properties import *
 
 
 
