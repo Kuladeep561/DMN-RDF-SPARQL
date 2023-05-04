@@ -6,11 +6,12 @@ from pylib.init_classes_and_properties import *
 from pylib.add_triples import *
 
 
-#parse DMN table as xml
+###**parse DMN table as xml and create DataFrame**###
+
 dmn_filepath = r"C:\Users\kuk\Downloads\curinginspections-2-dmn.dmn"
+
+
 parser = DMNParser(dmn_filepath)
-
-
 hit_policy = parser.extract_hit_policy() #get DMN hit policy
 inputs, outputs = parser.extract_inputs_outputs()
 inputs, outputs = parser.FEEL_converter(inputs, outputs) #Final inputs and Outputs
@@ -18,34 +19,26 @@ inputs, outputs = parser.FEEL_converter(inputs, outputs) #Final inputs and Outpu
 df_inputs, df_outputs = parser.dmn_as_dataframe(inputs,outputs) #Convert into dataframes
 df_io = pd.concat([df_inputs, df_outputs], axis=1) #Merge two DFs
 
-###**SHACL validation and SPARQL construct based on hit polocy**### 
+###!SHACL validation and SPARQL construct based on hit polocy**### 
+
 if (hit_policy.lower() == "collect"):
 
-    ontology = Graph().parse("./graphs/DMN-RDF-Dicon-OCQA-Tbox.ttl", format="ttl")
-    namespace = dict(ontology.namespaces())
-    ns = {k: Namespace(v) for k, v in namespace.items()} 
-
+    ontology = Graph().parse("./graphs/DMN-RDF-Dicon-OCQA-Tbox.ttl", format="ttl") #parse ontology graph into memory
     g = Graph() #initialize emptz graph to store individuals
-    
-    for prefix, uri in namespace.items():          # Bind the namespaces with their prefixes in dmn_Abox
+
+    namespace = dict(ontology.namespaces())
+    ns = {k: Namespace(v) for k, v in namespace.items()}     
+    for prefix, uri in namespace.items():# Bind the namespaces with their prefixes in dmn_Abox
         g.bind(prefix, uri)
 
     classes, literals, relationships = init_classes_and_properties(ns)
     create_individuals(df_io, g, classes)
     DMN_graph = link_individuals(df_io, g, ns, relationships, literals)
-
-    #serialize the Abox into ttl file
-    DMN_graph.serialize("./inferred graphs/DMN-RDF-Abox.ttl", format='turtle')
+    DMN_graph.serialize("./inferred graphs/DMN-RDF-Abox.ttl", format='turtle')#serialize the Abox into ttl file
     
-    
-    #**SHACL validation and SPARQL construct**#
     example_building = Graph().parse("./graphs/Data.ttl", format="ttl") #Load  example files
-
-    # Combine the graphs
-    combined_graph = ontology + DMN_graph + example_building
-
-    # Load the SHACL rules graph
-    rules_graph = Graph().parse("./graphs/WaterCuringRule.ttl", format="ttl")
+    combined_graph = ontology + DMN_graph + example_building # Combine the graphs
+    rules_graph = Graph().parse("./graphs/WaterCuringRule.ttl", format="ttl")  # Load the SHACL rules graph
 
     # Validate the combined graph and apply the rules
     conforms, inferred_graph, string  = validate(combined_graph, shacl_graph=rules_graph, 
