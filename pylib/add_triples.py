@@ -1,12 +1,11 @@
 from rdflib import*
 
-def create_individuals(df, graph, ns, classes):
-    for index, row in df.iterrows():
-        for column in df.columns:
-            if column in classes:
-                individual_value = row[column]
-                individual_uri = URIRef(f"{ns['dmn']}{individual_value}")
-                class_uri = classes[column]
+def create_individuals(df, graph, class_and_individual_ns_mapping):
+    for column in df.columns:
+        if column in class_and_individual_ns_mapping:
+            class_uri, namespace = class_and_individual_ns_mapping[column]
+            for value in df[column].unique():
+                individual_uri = URIRef(f"{namespace}{value}")
                 graph.add((individual_uri, RDF.type, class_uri))
             
 

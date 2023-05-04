@@ -1,17 +1,17 @@
 from rdflib import RDFS, XSD
 
 def init_classes_and_properties(ns):
-    classes = {
-        'CompositeMaterial': ns['dicm'].CompositeMaterial
-        ,'Material': ns['dicm'].Material
-        ,'Activity': ns['dicp'].Activity
-        ,'SubActivity':ns['dmn'].SubActivity
-        ,'Inspection': ns['ocqa'].Inspection
-        ,'InspectionEquipment': ns['ocqa'].InspectionEquipment
-        ,'InspectionProcedure': ns['ocqa'].InspectionProcedure
-        ,'ISCode': ns['dmn'].ISCode
-        ,'Agent': ns['dica'].Agent
-        ,'Location': ns['dice'].Location
+    class_and_individual_ns_mapping  = {
+        'CompositeMaterial': (ns['dicm'].CompositeMaterial, ns['dmn'])
+        ,'Material': (ns['dicm'].Material, ns['dmn'])
+        ,'Activity': (ns['dicp'].Activity, ns['dmn'])
+        ,'SubActivity':(ns['dmn'].SubActivity, ns['dmn'])
+        ,'Inspection': (ns['ocqa'].Inspection, ns['dmn'])
+        ,'InspectionEquipment': (ns['ocqa'].InspectionEquipment, ns['dmn'])
+        ,'InspectionProcedure': (ns['ocqa'].InspectionProcedure, ns['dmn'])
+        ,'ISCode': (ns['dmn'].ISCode, ns['dmn'])
+        ,'Agent': (ns['dica'].Agent, ns['dmn'])
+        ,'Location': (ns['dice'].Location, ns['dmn'])
     }
 
     literals = {
@@ -21,7 +21,7 @@ def init_classes_and_properties(ns):
         ,'hasActivityStartDate':XSD.dateTime
 }
 
-    relationships = {
+    class_and_relations_mapping = {
          ns['dice'].isPartOf:('Inspection','ISCode')
         ,ns['dica'].hasAgent:('Inspection','Agent')
         ,ns['ocqa'].hasInspectionEquipment:('Inspection','InspectionEquipment')
@@ -40,4 +40,4 @@ def init_classes_and_properties(ns):
 
 
     }
-    return classes, literals, relationships
+    return class_and_individual_ns_mapping, literals, class_and_relations_mapping

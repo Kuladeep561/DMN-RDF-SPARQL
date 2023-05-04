@@ -31,7 +31,7 @@ if (hit_policy.lower() == "collect"):
         g.bind(prefix, uri)
 
     classes, literals, relationships = init_classes_and_properties(ns)
-    create_individuals(df_io, g, ns, classes)
+    create_individuals(df_io, g, classes)
     DMN_graph = link_individuals(df_io, g, ns, relationships, literals)
 
     #serialize the Abox into ttl file
@@ -40,7 +40,6 @@ if (hit_policy.lower() == "collect"):
     
     #**SHACL validation and SPARQL construct**#
     example_building = Graph().parse("./graphs/Data.ttl", format="ttl") #Load  example files
-
 
     # Combine the graphs
     combined_graph = ontology + DMN_graph + example_building
@@ -56,10 +55,6 @@ if (hit_policy.lower() == "collect"):
     # Merge the original graph with the inferred graph
     new_graph = combined_graph + inferred_graph
     
-    # Bind the 'dmn' namespace with the desired prefix in the new_graph
-    dmn_namespace = ns['dmn']
-    new_graph.bind("dmn", dmn_namespace)
-
     # Save the new graph to a new file
     new_graph.serialize(destination="./inferred graphs/Inferred_WaterCuring_inspections.ttl", format="ttl")
 
