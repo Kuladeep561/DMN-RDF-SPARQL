@@ -7,50 +7,63 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-dmn:Concrete a dicm:CompositeMaterial ;
-    dmn:hasActivity dmn:Water_Curing .
+dmn:Concrete a dicm:Material ;
+    dmn:hasActivity dmn:Curing .
+
+dmn:Confirm-minimum-days-for-water-curing-according-to_IS-456 a ocqa:InspectionProcedure .
+
+dmn:Curing a dicp:Activity ;
+    dicp:hasSubActivity dmn:WaterCuring_1 .
+
+dmn:Drawings-Designs a ocqa:InspectionEquipment .
 
 dmn:Inspection_minimum-curing-period a ocqa:Inspection ;
-    dmn:hasCodeOfConduct dmn:IS-456 ;
     dmn:hasEndDate "2023-03-18T00:00:00+00:00"^^xsd:dateTime ;
-    dmn:hasFrequency "oneTime"^^xsd:string ;
-    dmn:hasLocation dmn:At-workingSite ;
-    dmn:hasStartDate "2023-03-16T00:00:00+00:00"^^xsd:dateTime ;
+    dmn:hasFrequency dmn:oneTime ;
     rdfs:comment "Minimum curing period is 7 days"^^xsd:string ;
-    dica:hasApprover dmn:SiteEngineer ;
-    dica:hasResponsibleAgent dmn:Supervisor ;
-    ocqa:hasInspectionProcedure dmn:asPer_IS-456 .
+    dica:hasAgent dmn:SiteEngineer ;
+    dice:isPartOf dmn:IS456-2000 ;
+    dicp:hasLocation dmn:At-workingSite ;
+    ocqa:hasInspectionEquipment dmn:Drawings-Designs ;
+    ocqa:hasInspectionProcedure dmn:Confirm-minimum-days-for-water-curing-according-to_IS-456 .
 
 dmn:Inspection_pH-value-of-water a ocqa:Inspection ;
-    dmn:hasCodeOfConduct dmn:IS-456 ;
     dmn:hasEndDate "2023-03-18T00:00:00+00:00"^^xsd:dateTime ;
-    dmn:hasFrequency "oneTime"^^xsd:string ;
-    dmn:hasLocation dmn:At-workingSite ;
-    dmn:hasStartDate "2023-03-16T00:00:00+00:00"^^xsd:dateTime ;
+    dmn:hasFrequency dmn:oneTime ;
     rdfs:comment "Permissible pH value is between 6 to 8"^^xsd:string ;
-    dica:hasApprover dmn:SiteEngineer ;
-    dica:hasResponsibleAgent dmn:Supervisor ;
-    ocqa:hasInspectionProcedure dmn:asPer_IS-456 .
+    dica:hasAgent dmn:SiteEngineer ;
+    dice:isPartOf dmn:IS456-2000 ;
+    dicp:hasLocation dmn:At-workingSite ;
+    ocqa:hasInspectionEquipment dmn:Litmuspaper ;
+    ocqa:hasInspectionProcedure dmn:Testing-procedure-of-finding-pH-value-according-to_IS-456 .
 
 dmn:Inspection_water-quality-for-foreign-material a ocqa:Inspection ;
-    dmn:hasCodeOfConduct dmn:IS-456 ;
     dmn:hasEndDate "2023-03-18T00:00:00+00:00"^^xsd:dateTime ;
-    dmn:hasFrequency "oneTime"^^xsd:string ;
-    dmn:hasLocation dmn:At-workingSite ;
-    dmn:hasStartDate "2023-03-16T00:00:00+00:00"^^xsd:dateTime ;
+    dmn:hasFrequency dmn:oneTime ;
     rdfs:comment "Should be free from foreign material"^^xsd:string ;
-    dica:hasApprover dmn:SiteEngineer ;
-    dica:hasResponsibleAgent dmn:Supervisor ;
-    ocqa:hasInspectionProcedure dmn:asPer_IS-456 .
+    dica:hasAgent dmn:SiteEngineer ;
+    dice:isPartOf dmn:IS456-2000 ;
+    dicp:hasLocation dmn:At-workingSite ;
+    ocqa:hasInspectionEquipment dmn:visual-inspection ;
+    ocqa:hasInspectionProcedure dmn:Testing-procedure-of-finding-impurities-in-water-according-to_IS-456 .
 
-dmn:Water_Curing a dicp:Activity ;
-    dmn:hasStartDate "2023-03-17T00:00:00+00:00"^^xsd:dateTime .
+dmn:Litmuspaper a ocqa:InspectionEquipment .
+
+dmn:Testing-procedure-of-finding-impurities-in-water-according-to_IS-456 a ocqa:InspectionProcedure .
+
+dmn:Testing-procedure-of-finding-pH-value-according-to_IS-456 a ocqa:InspectionProcedure .
+
+dmn:WaterCuring_1 a dmn:SubActivity ;
+    dmn:hasStartDate "2023-03-17T00:00:00+00:00"^^xsd:dateTime ;
+    ocqa:hasInspection dmn:Inspection_minimum-curing-period,
+        dmn:Inspection_pH-value-of-water,
+        dmn:Inspection_water-quality-for-foreign-material .
+
+dmn:visual-inspection a ocqa:InspectionEquipment .
 
 dmn:At-workingSite a dice:Location .
 
+dmn:IS456-2000 a dmn:ISCode .
+
 dmn:SiteEngineer a dica:Agent .
-
-dmn:Supervisor a dica:Agent .
-
-dmn:asPer_IS-456 a ocqa:InspectionProcedure .
 

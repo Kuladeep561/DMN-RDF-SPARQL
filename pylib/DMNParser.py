@@ -139,14 +139,8 @@ class DMNParser:
 
         return input_val, output_val
 
-    def dmn_as_dataframe(self, input_val=None, output_val=None):
+    def dmn_as_dataframe(self, input_val, output_val):
 
-        self.FEEL_converter()
-
-        if input_val is None:
-            input_val = self.final_inputs
-        if output_val is None:
-            output_val = self.final_outputs
         df_inputs = pd.DataFrame.from_dict(input_val)
         df_outputs = pd.DataFrame.from_dict(output_val)
 
