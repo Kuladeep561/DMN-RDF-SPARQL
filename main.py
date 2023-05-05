@@ -7,7 +7,7 @@ from pylib.add_triples import *
 
 ### **parse DMN table as xml and create DataFrame**###
 
-dmn_filepath = r"C:\Users\kuk\Downloads\curinginspections-2-dmn.dmn"
+dmn_filepath = r"C:\Users\kuk\OneDrive - Technische Universität Ilmenau\Thesis\Camunda\curinginspections_4.dmn"
 
 
 parser = DMNParser(dmn_filepath)
