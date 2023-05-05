@@ -1,5 +1,4 @@
 from rdflib import*
-
 def create_individuals(df, graph, class_and_individual_ns_mapping):
     for column in df.columns:
         if column in class_and_individual_ns_mapping:
@@ -10,7 +9,7 @@ def create_individuals(df, graph, class_and_individual_ns_mapping):
             
 
 
-def link_individuals(df, graph, ns, relationships, literals=None):
+def link_individuals(df, graph,ns, class_and_individual_ns_mapping, relationships, literals=None):
     if literals is None:
         literals = {}
     
@@ -18,7 +17,12 @@ def link_individuals(df, graph, ns, relationships, literals=None):
         for relationship, related_columns in relationships.items():
             subject_column, object_column = related_columns
             subject_value = row[subject_column]
-            subject_uri = URIRef(f"{ns['dmn']}{subject_value}")
+
+            if subject_column in class_and_individual_ns_mapping:
+                subject_ns = class_and_individual_ns_mapping[subject_column][1]
+            else:
+                subject_ns = ns['dmn']
+            subject_uri = URIRef(f"{subject_ns}{subject_value}")
 
             if object_column in literals:
                 object_value = row[object_column]
@@ -27,8 +31,13 @@ def link_individuals(df, graph, ns, relationships, literals=None):
                 graph.add((subject_uri, relationship, object_literal))
             else:
                 object_value = row[object_column]
-                object_uri = URIRef(f"{ns['dmn']}{object_value}")
+                if object_column in class_and_individual_ns_mapping:
+                    object_ns = class_and_individual_ns_mapping[object_column][1]
+                else:
+                    object_ns = ns['dmn']
+                object_uri = URIRef(f"{object_ns}{object_value}")
                 graph.add((subject_uri, relationship, object_uri))
     
     return graph
+
 

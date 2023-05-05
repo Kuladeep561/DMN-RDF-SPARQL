@@ -10,6 +10,7 @@
 @prefix dicm: <https://w3id.org/digitalconstruction/0.5/Materials#> .
 @prefix dicp: <https://w3id.org/digitalconstruction/0.5/Processes#> .
 @prefix ocqa: <https://w3id.org/ocqa#> .
+@prefix inst: <https://www.ugent.be/myAwesomeFirstBIMProject#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix vann: <http://purl.org/vocab/vann/> .
 @prefix dcterms: <http://purl.org/dc/terms/> .
@@ -235,10 +236,10 @@ dmn:Norms rdf:type owl:Class ;
 ###  http://www.DMN-RDF.org/DMN#SubActivity
 dmn:SubActivity rdf:type owl:Class ;
                 rdfs:subClassOf dicp:Activity ;
-                rdfs:comment "" ,
-                             "A process that is intentionally performed by an agent." ;
-                rdfs:label "Object" ,
-                           "SubActivity" .
+                rdfs:comment "A process that is intentionally performed by an agent." ;
+                             
+                rdfs:label "SubActivity" .
+                          
 
 
 ###  https://w3id.org/digitalconstruction/0.5/Agents#Agent

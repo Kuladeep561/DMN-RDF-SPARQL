@@ -61,8 +61,10 @@ class DMNParser:
         return self.inputs, self.outputs
     
 
-    def is_feel_expression(self,expression: str) -> bool:
-        return "date and time(" in expression
+    def is_feel_expression(self, expression: str) -> bool:
+        pattern = r'date and time\(.*?\)\s*[+-]\s*duration\(.*?\)'
+        return bool(re.search(pattern, expression))
+    
     def extract_referenced_column(self, feel_expression: str) -> str:
         return re.search(r'\((.*?)\)', feel_expression).group(1)
     
@@ -75,7 +77,7 @@ class DMNParser:
 
         updated_output_data = {key: [] for key in output_data.keys()}
         max_length = max(len(value_list) for value_list in output_data.values())
-    
+        
     
         for i in range(max_length):
             for key, value_list in output_data.items():
@@ -92,7 +94,7 @@ class DMNParser:
 
                         operation = operation_match.group(1)
 
-                        activity_start_date_str = input_data[column_name][i][15:-2]
+                        activity_start_date_str = re.search(r'"(.*?)"', input_data[column_name][i]).group(1)
                         
                         activity_start_date = datetime.fromisoformat(activity_start_date_str.replace("Z", "+00:00"))
 
@@ -108,6 +110,8 @@ class DMNParser:
                         updated_output_data[key].append(new_date_str)
 
 
+                    elif (match := re.search(r'"(.*?)"', value)) is not None:
+                        updated_output_data[key].append(match.group(1))
                     else:
                         updated_output_data[key].append(value)
 

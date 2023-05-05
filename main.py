@@ -5,7 +5,6 @@ from pylib.add_triples import *
 from pylib.init_classes_and_properties import *
 from pylib.add_triples import *
 
-
 ###**parse DMN table as xml and create DataFrame**###
 
 dmn_filepath = r"C:\Users\kuk\Downloads\curinginspections-2-dmn.dmn"
@@ -18,6 +17,7 @@ inputs, outputs = parser.FEEL_converter(inputs, outputs) #Final inputs and Outpu
 
 df_inputs, df_outputs = parser.dmn_as_dataframe(inputs,outputs) #Convert into dataframes
 df_io = pd.concat([df_inputs, df_outputs], axis=1) #Merge two DFs
+
 
 ###!SHACL validation and SPARQL construct based on hit polocy**### 
 
@@ -33,7 +33,7 @@ if (hit_policy.lower() == "collect"):
 
     classes, literals, relationships = init_classes_and_properties(ns)
     create_individuals(df_io, g, classes)
-    DMN_graph = link_individuals(df_io, g, ns, relationships, literals)
+    DMN_graph = link_individuals(df_io, g,ns, classes, relationships, literals)
     DMN_graph.serialize("./inferred graphs/DMN-RDF-Abox.ttl", format='turtle')#serialize the Abox into ttl file
     
     example_building = Graph().parse("./graphs/Data.ttl", format="ttl") #Load  example files
@@ -52,6 +52,6 @@ if (hit_policy.lower() == "collect"):
     new_graph.serialize(destination="./inferred graphs/Inferred_WaterCuring_inspections.ttl", format="ttl")
 
 else:
-    raise ValueError(f"The hit policy is: {hit_policy}, it is unsupported. Script supports only 'COLLECT'")
+    raise ValueError(f"The hit policy is: {hit_policy}, it is unsupported. The script supports only 'COLLECT'")
 
 

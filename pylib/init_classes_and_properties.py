@@ -30,7 +30,7 @@ def init_classes_and_properties(ns):
         ,ns['dmn'].hasStartDate:('Inspection','hasStartDate')
         ,ns['dmn'].hasEndDate:('Inspection','hasEndDate')
         ,ns['dmn'].hasFrequency:('Inspection','hasFrequency')
-        ,ns['dmn'].hasActivity:('Material','Activity')
+        #,ns['dmn'].hasActivity:('Material','Activity')
         ,ns['dicp'].hasSubActivity:('Activity','SubActivity')
         ,ns['ocqa'].hasInspection:('SubActivity','Inspection')
         ,ns['dmn'].hasStartDate:('SubActivity','hasActivityStartDate')

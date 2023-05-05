@@ -7,13 +7,12 @@
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-dmn:Concrete a dicm:Material ;
-    dmn:hasActivity dmn:Curing .
-
-dmn:Confirm-minimum-days-for-water-curing-according-to_IS-456 a ocqa:InspectionProcedure .
+dmn:Concrete a dicm:Material .
 
 dmn:Curing a dicp:Activity ;
     dicp:hasSubActivity dmn:WaterCuring_1 .
+
+dmn:Confirm-minimum-days-for-water-curing-according-to_IS-456 a ocqa:InspectionProcedure .
 
 dmn:Drawings-Designs a ocqa:InspectionEquipment .
 
