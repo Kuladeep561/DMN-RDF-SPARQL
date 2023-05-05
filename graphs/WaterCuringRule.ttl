@@ -1,124 +1,42 @@
-@prefix beo: <https://pi.pauwel.be/voc/buildingelement#> .
-@prefix bot: <https://w3id.org/bot#> .
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix dmn: <http://www.DMN-RDF.org/DMN#> .
-@prefix fog: <https://w3id.org/fog#> .
-@prefix geo: <http://www.opengis.net/ont/geosparql#> .
-@prefix ifc: <https://standards.buildingsmart.org/IFC/DEV/IFC2x3/TC1/OWL#> .
-@prefix lbd: <https://linkebuildingdata.org/LBD#> .
-@prefix mep: <http://pi.pauwel.be/voc/distributionelement#> .
-@prefix opm: <https://w3id.org/opm#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix dica: <https://w3id.org/digitalconstruction/0.5/Agents#> .
-@prefix dice: <https://w3id.org/digitalconstruction/0.5/Entities#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix dicm: <https://w3id.org/digitalconstruction/0.5/Materials#> .
+@prefix dmn: <http://www.DMN-RDF.org/DMN#> .
 @prefix dicp: <https://w3id.org/digitalconstruction/0.5/Processes#> .
-@prefix furn: <http://pi.pauwel.be/voc/furniture#> .
-@prefix inst: <https://www.ugent.be/myAwesomeFirstBIMProject#> .
 @prefix ocqa: <https://w3id.org/ocqa#> .
-@prefix prov: <http://www.w3.org/ns/prov#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@prefix seas: <https://w3id.org/seas/> .
-@prefix smls: <https://w3id.org/def/smls-owl#> .
-@prefix unit: <http://qudt.org/vocab/unit/> .
-@prefix vann: <http://purl.org/vocab/vann/> .
-@prefix props: <http://lbd.arch.rwth-aachen.de/props#> .
-@prefix schema: <http://schema.org/> .
-@prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix IFC4-PSD: <https://www.linkedbuildingdata.net/IFC4-PSD#> .
-@base <http://www.w3.org/2002/07/owl#> .
+@prefix inst: <https://www.ugent.be/myAwesomeFirstBIMProject#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
 
-ex:ConcreteWaterCuringRule
+
+
+dmn:ConcreteWaterCuringRule
     a sh:NodeShape ;
-    sh:target[
-        a sh:SPARQLTarget;
-          sh:comment "Select all of inspection of Curing";
-            sh:select """
-                PREFIX beo: <https://pi.pauwel.be/voc/buildingelement#> .
-                PREFIX bot: <https://w3id.org/bot#> .
-                PREFIX dct: <http://purl.org/dc/terms/> .
-                PREFIX dmn: <http://www.DMN-RDF.org/DMN#> .
-                PREFIX fog: <https://w3id.org/fog#> .
-                PREFIX geo: <http://www.opengis.net/ont/geosparql#> .
-                PREFIX ifc: <https://standards.buildingsmart.org/IFC/DEV/IFC2x3/TC1/OWL#> .
-                PREFIX lbd: <https://linkebuildingdata.org/LBD#> .
-                PREFIX mep: <http://pi.pauwel.be/voc/distributionelement#> .
-                PREFIX opm: <https://w3id.org/opm#> .
-                PREFIX owl: <http://www.w3.org/2002/07/owl#> .
-                PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-                PREFIX xml: <http://www.w3.org/XML/1998/namespace> .
-                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> .
-                PREFIX dica: <https://w3id.org/digitalconstruction/0.5/Agents#> .
-                PREFIX dice: <https://w3id.org/digitalconstruction/0.5/Entities#> .
-                PREFIX dicm: <https://w3id.org/digitalconstruction/0.5/Materials#> .
-                PREFIX dicp: <https://w3id.org/digitalconstruction/0.5/Processes#> .
-                PREFIX furn: <http://pi.pauwel.be/voc/furniture#> .
-                PREFIX inst: <https://www.ugent.be/myAwesomeFirstBIMProject#> .
-                PREFIX ocqa: <https://w3id.org/ocqa#> .
-                PREFIX prov: <http://www.w3.org/ns/prov#> .
-                PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-                PREFIX seas: <https://w3id.org/seas/> .
-                PREFIX smls: <https://w3id.org/def/smls-owl#> .
-                PREFIX unit: <http://qudt.org/vocab/unit/> .
-                PREFIX vann: <http://purl.org/vocab/vann/> .
-                PREFIX props: <http://lbd.arch.rwth-aachen.de/props#> .
-                PREFIX schema: <http://schema.org/> .
-                PREFIX dcterms: <http://purl.org/dc/terms/> .
-                PREFIX IFC4-PSD: <https://www.linkedbuildingdata.net/IFC4-PSD#> .
-
-                SELECT ?inspection
-                WHERE {
-                    ?inspection a ocqa:Inspection ;
-                        ^ocqa:hasInspection ?subActivity  .
-                }        
-            """;
-    ] ;  
+    sh:targetNode owl:Thing ;
     
     sh:rule [
         a sh:SPARQLRule ;
+        sh:comment "Select all of inspection of Curing";
         sh:construct """
-            PREFIX beo: <https://pi.pauwel.be/voc/buildingelement#> .
-            PREFIX bot: <https://w3id.org/bot#> .
-            PREFIX dct: <http://purl.org/dc/terms/> .
-            PREFIX dmn: <http://www.DMN-RDF.org/DMN#> .
-            PREFIX fog: <https://w3id.org/fog#> .
-            PREFIX geo: <http://www.opengis.net/ont/geosparql#> .
-            PREFIX ifc: <https://standards.buildingsmart.org/IFC/DEV/IFC2x3/TC1/OWL#> .
-            PREFIX lbd: <https://linkebuildingdata.org/LBD#> .
-            PREFIX mep: <http://pi.pauwel.be/voc/distributionelement#> .
-            PREFIX opm: <https://w3id.org/opm#> .
-            PREFIX owl: <http://www.w3.org/2002/07/owl#> .
-            PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-            PREFIX xml: <http://www.w3.org/XML/1998/namespace> .
-            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#> .
-            PREFIX dica: <https://w3id.org/digitalconstruction/0.5/Agents#> .
-            PREFIX dice: <https://w3id.org/digitalconstruction/0.5/Entities#> .
-            PREFIX dicm: <https://w3id.org/digitalconstruction/0.5/Materials#> .
-            PREFIX dicp: <https://w3id.org/digitalconstruction/0.5/Processes#> .
-            PREFIX furn: <http://pi.pauwel.be/voc/furniture#> .
-            PREFIX inst: <https://www.ugent.be/myAwesomeFirstBIMProject#> .
-            PREFIX ocqa: <https://w3id.org/ocqa#> .
-            PREFIX prov: <http://www.w3.org/ns/prov#> .
-            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-            PREFIX seas: <https://w3id.org/seas/> .
-            PREFIX smls: <https://w3id.org/def/smls-owl#> .
-            PREFIX unit: <http://qudt.org/vocab/unit/> .
-            PREFIX vann: <http://purl.org/vocab/vann/> .
-            PREFIX props: <http://lbd.arch.rwth-aachen.de/props#> .
-            PREFIX schema: <http://schema.org/> .
-            PREFIX dcterms: <http://purl.org/dc/terms/> .
-            PREFIX IFC4-PSD: <https://www.linkedbuildingdata.net/IFC4-PSD#> .       
+            PREFIX sh: <http://www.w3.org/ns/shacl#> 
+            PREFIX dicm: <https://w3id.org/digitalconstruction/0.5/Materials#> 
+            PREFIX dmn: <http://www.DMN-RDF.org/DMN#> 
+            PREFIX dicp: <https://w3id.org/digitalconstruction/0.5/Processes#> 
+            PREFIX ocqa: <https://w3id.org/ocqa#> 
+            PREFIX inst: <https://www.ugent.be/myAwesomeFirstBIMProject#>
+            PREFIX owl: <http://www.w3.org/2002/07/owl#> 
+            
 
             CONSTRUCT {
-                ?buildingElement ocqa:hasInspection ?subActivity .
+                ?buildingElement ocqa:hasInspection ?inspection .
             }
             WHERE {
-                ?buildingElement dicm:hasMaterial ex:Concrete ;
-                    dmn:hasActivity dmn:Curing ;
-                    dicp:hasSubActivity ?subActivity
+                # Find elements that satisfy the given conditions
+
+                ?buildingElement dicm:hasMaterial dmn:Concrete ;
+                              dmn:hasActivity dmn:Curing ;
+                              dicp:hasSubActivity ?subActivity .
+
+                # Get the inspections related to the subActivity
+                ?subActivity ocqa:hasInspection ?inspection .
             }
         """ ;
     ] ;
