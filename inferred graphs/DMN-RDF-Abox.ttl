@@ -10,11 +10,14 @@
 dmn:Concrete a dicm:Material .
 
 dmn:Curing a dicp:Activity ;
-    dicp:hasSubActivity dmn:WaterCuring_1 .
+    dicp:hasSubActivity dmn:WaterCuring_1,
+        dmn:WaterCuring_2 .
 
 dmn:Confirm-minimum-days-for-water-curing-according-to_IS-456 a ocqa:InspectionProcedure .
 
 dmn:Drawings-Designs a ocqa:InspectionEquipment .
+
+dmn:IS3025 a dmn:ISCode .
 
 dmn:Inspection_minimum-curing-period a ocqa:Inspection ;
     dmn:hasEndDate "2023-03-18T00:00:00+00:00"^^xsd:dateTime ;
@@ -36,6 +39,16 @@ dmn:Inspection_pH-value-of-water a ocqa:Inspection ;
     ocqa:hasInspectionEquipment dmn:Litmuspaper ;
     ocqa:hasInspectionProcedure dmn:Testing-procedure-of-finding-pH-value-according-to_IS-456 .
 
+dmn:Inspection_water-quality-for-Sulphates a ocqa:Inspection ;
+    dmn:hasEndDate "2023-03-19T00:00:00+00:00"^^xsd:dateTime ;
+    dmn:hasFrequency dmn:oneTime ;
+    rdfs:comment "Permissible upper limit is 400 mg/liter"^^xsd:string ;
+    dica:hasAgent dmn:SiteEngineer ;
+    dice:isPartOf dmn:IS3025 ;
+    dicp:hasLocation dmn:At-workingSite ;
+    ocqa:hasInspectionEquipment dmn:visual-inspection ;
+    ocqa:hasInspectionProcedure dmn:Testing-procedure-of-finding-impurities-in-water-according-to_IS-456 .
+
 dmn:Inspection_water-quality-for-foreign-material a ocqa:Inspection ;
     dmn:hasEndDate "2023-03-18T00:00:00+00:00"^^xsd:dateTime ;
     dmn:hasFrequency dmn:oneTime ;
@@ -48,8 +61,6 @@ dmn:Inspection_water-quality-for-foreign-material a ocqa:Inspection ;
 
 dmn:Litmuspaper a ocqa:InspectionEquipment .
 
-dmn:Testing-procedure-of-finding-impurities-in-water-according-to_IS-456 a ocqa:InspectionProcedure .
-
 dmn:Testing-procedure-of-finding-pH-value-according-to_IS-456 a ocqa:InspectionProcedure .
 
 dmn:WaterCuring_1 a dmn:SubActivity ;
@@ -58,11 +69,17 @@ dmn:WaterCuring_1 a dmn:SubActivity ;
         dmn:Inspection_pH-value-of-water,
         dmn:Inspection_water-quality-for-foreign-material .
 
+dmn:WaterCuring_2 a dmn:SubActivity ;
+    dmn:hasStartDate "2023-03-18T00:00:00+00:00"^^xsd:dateTime ;
+    ocqa:hasInspection dmn:Inspection_water-quality-for-Sulphates .
+
+dmn:Testing-procedure-of-finding-impurities-in-water-according-to_IS-456 a ocqa:InspectionProcedure .
+
 dmn:visual-inspection a ocqa:InspectionEquipment .
 
-dmn:At-workingSite a dice:Location .
-
 dmn:IS456-2000 a dmn:ISCode .
+
+dmn:At-workingSite a dice:Location .
 
 dmn:SiteEngineer a dica:Agent .
 
