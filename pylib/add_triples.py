@@ -9,13 +9,15 @@ def create_individuals(df, graph, class_and_individual_ns_mapping):
             
 
 
-def link_individuals(df, graph,ns, class_and_individual_ns_mapping, relationships, literals=None):
+def link_individuals(df_outputs, graph,ns, class_and_individual_ns_mapping, relationships, literals=None):
     if literals is None:
         literals = {}
     
-    for index, row in df.iterrows():
+    for index, row in df_outputs.iterrows():
         for relationship, related_columns in relationships.items():
             subject_column, object_column = related_columns
+            if subject_column not in row or object_column not in row:
+                continue
             subject_value = row[subject_column]
 
             if subject_column in class_and_individual_ns_mapping:

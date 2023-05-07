@@ -1,0 +1,59 @@
+
+PREFIX brick: <https://brickschema.org/schema/Brick#>
+PREFIX csvw: <http://www.w3.org/ns/csvw#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX dcat: <http://www.w3.org/ns/dcat#>
+PREFIX dcmitype: <http://purl.org/dc/dcmitype/>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX dcam: <http://purl.org/dc/dcam/>
+PREFIX doap: <http://usefulinc.com/ns/doap#>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX odrl: <http://www.w3.org/ns/odrl/2/>
+PREFIX org: <http://www.w3.org/ns/org#>
+PREFIX prof: <http://www.w3.org/ns/dx/prof/>
+PREFIX prov: <http://www.w3.org/ns/prov#>
+PREFIX qb: <http://purl.org/linked-data/cube#>
+PREFIX schema: <https://schema.org/>
+PREFIX sh: <http://www.w3.org/ns/shacl#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX ssn: <http://www.w3.org/ns/ssn/>
+PREFIX time: <http://www.w3.org/2006/time#>
+PREFIX vann: <http://purl.org/vocab/vann/>
+PREFIX void: <http://rdfs.org/ns/void#>
+PREFIX wgs: <https://www.w3.org/2003/01/geo/wgs84_pos#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX xml: <http://www.w3.org/XML/1998/namespace>
+PREFIX ocqa: <https://w3id.org/ocqa#>
+PREFIX fog: <https://w3id.org/fog#>
+PREFIX smls: <https://w3id.org/def/smls-owl#>
+PREFIX props: <http://lbd.arch.rwth-aachen.de/props#>
+PREFIX IFC4-PSD: <https://www.linkedbuildingdata.net/IFC4-PSD#>
+PREFIX dica: <https://w3id.org/digitalconstruction/0.5/Agents#>
+PREFIX dicm: <https://w3id.org/digitalconstruction/0.5/Materials#>
+PREFIX furn: <http://pi.pauwel.be/voc/furniture#>
+PREFIX ifc: <https://standards.buildingsmart.org/IFC/DEV/IFC2x3/TC1/OWL#>
+PREFIX inst: <https://www.ugent.be/myAwesomeFirstBIMProject#>
+PREFIX dice: <https://w3id.org/digitalconstruction/0.5/Entities#>
+PREFIX schema1: <http://schema.org/>
+PREFIX mep: <http://pi.pauwel.be/voc/distributionelement#>
+PREFIX bot: <https://w3id.org/bot#>
+PREFIX lbd: <https://linkebuildingdata.org/LBD#>
+PREFIX dmn: <http://www.DMN-RDF.org/DMN#>
+PREFIX dicp: <https://w3id.org/digitalconstruction/0.5/Processes#>
+PREFIX opm: <https://w3id.org/opm#>
+PREFIX unit: <http://qudt.org/vocab/unit/>
+PREFIX beo: <https://pi.pauwel.be/voc/buildingelement#>
+PREFIX seas: <https://w3id.org/seas/>
+
+        SELECT ?elements
+        WHERE {
+            ?elements ?1 http://www.DMN-RDF.org/DMN#:Concrete ;
+?2 http://www.DMN-RDF.org/DMN#:Curing ;
+?3 http://www.DMN-RDF.org/DMN#:WaterCuring_1  .
+        }
+    
