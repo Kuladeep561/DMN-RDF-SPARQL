@@ -1,0 +1,343 @@
+@prefix : <http://www.DMN-RDF.org/DMN#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix dmn: <http://www.DMN-RDF.org/DMN#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dica: <https://w3id.org/digitalconstruction/0.5/Agents#> .
+@prefix dice: <https://w3id.org/digitalconstruction/0.5/Entities#> .
+@prefix dicm: <https://w3id.org/digitalconstruction/0.5/Materials#> .
+@prefix dicp: <https://w3id.org/digitalconstruction/0.5/Processes#> .
+@prefix ocqa: <https://w3id.org/ocqa#> .
+@prefix inst: <https://www.ugent.be/myAwesomeFirstBIMProject#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix vann: <http://purl.org/vocab/vann/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@base <http://www.DMN-RDF.org/DMN#> .
+
+<http://www.DMN-RDF.org/DMN#> rdf:type owl:Ontology ;
+                               owl:versionIRI <http://www.DMN-RDF.org/DMN/1.0> ;
+                               dcterms:description "DMN to RDF." ;
+                               dcterms:title "DMN to RDF" ;
+                               vann:preferredNamespacePrefix "dmn" ;
+                               vann:preferredNamespaceUri "http://www.DMN-RDF.org/DMN#" ;
+                               owl:versionInfo 1.0 .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/terms/description
+dcterms:description rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/title
+dcterms:title rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/vocab/vann/preferredNamespacePrefix
+vann:preferredNamespacePrefix rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/vocab/vann/preferredNamespaceUri
+vann:preferredNamespaceUri rdf:type owl:AnnotationProperty .
+
+
+###  http://www.w3.org/2002/07/owl#minQualifiedCardinality
+owl:minQualifiedCardinality rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.DMN-RDF.org/DMN#hasActivity
+dmn:hasActivity rdf:type owl:ObjectProperty ;
+                rdfs:range dicp:Activity .
+
+
+###  http://www.DMN-RDF.org/DMN#hasCodeOfConduct
+dmn:hasCodeOfConduct rdf:type owl:ObjectProperty ;
+                     rdfs:range dmn:Norms .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Agents#hasAgent
+dica:hasAgent rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf dice:hasParticipant ;
+              owl:inverseOf dica:isAgentIn ;
+              rdfs:domain dice:Process ;
+              rdfs:range dica:Agent ;
+              rdfs:label "hasAgent" .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Agents#hasApprover
+dica:hasApprover rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf dica:hasAgent ;
+                 rdfs:label "hasApprover" .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Agents#hasResponsibleAgent
+dica:hasResponsibleAgent rdf:type owl:ObjectProperty ;
+                         rdfs:subPropertyOf dica:hasAgent ;
+                         rdfs:comment "The agent of activity with overall reponsibility that the activity gets executed" ;
+                         rdfs:label "hasResponsibleAgent" .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Agents#isAgentIn
+dica:isAgentIn rdf:type owl:ObjectProperty .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Entities#hasPart
+dice:hasPart rdf:type owl:ObjectProperty ;
+             owl:inverseOf dice:isPartOf .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Entities#hasParticipant
+dice:hasParticipant rdf:type owl:ObjectProperty .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Entities#hasProperOccurrentPart
+dice:hasProperOccurrentPart rdf:type owl:ObjectProperty .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Entities#isPartOf
+dice:isPartOf rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf owl:topObjectProperty ;
+              rdfs:domain dice:Entity ;
+              rdfs:range dice:Entity ;
+              rdfs:label "isPartOf" .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Materials#hasConstituent
+dicm:hasConstituent rdf:type owl:ObjectProperty .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Materials#hasLayer
+dicm:hasLayer rdf:type owl:ObjectProperty .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Materials#hasMaterial
+dicm:hasMaterial rdf:type owl:ObjectProperty ;
+                 rdfs:range dicm:Material ;
+                 owl:propertyChainAxiom ( dicm:hasConstituent
+                                          dicm:hasMaterial
+                                        ) ,
+                                        ( dicm:hasLayer
+                                          dicm:hasMaterial
+                                        ) ,
+                                        ( dicm:hasProfile
+                                          dicm:hasMaterial
+                                        ) ;
+                 rdfs:label "hasMaterial" .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Materials#hasProfile
+dicm:hasProfile rdf:type owl:ObjectProperty .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Processes#hasLocation
+dicp:hasLocation rdf:type owl:ObjectProperty ;
+                 rdfs:domain dicp:Activity ;
+                 rdfs:range dice:Location .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Processes#hasObject
+dicp:hasObject rdf:type owl:ObjectProperty ;
+               owl:inverseOf dicp:isObjectIn ;
+               rdfs:domain dicp:Activity ;
+               rdfs:range dice:Entity ;
+               rdfs:comment "The object that an activity acts on or is focused to. For example, a transportation activity can have as its object a container, or painting can have as its object a wall." ;
+               rdfs:label "hasObject" .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Processes#hasSubActivity
+dicp:hasSubActivity rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf dice:hasProperOccurrentPart ;
+                    owl:inverseOf dicp:isSubActivityOf ;
+                    rdfs:domain dicp:Activity ;
+                    rdfs:range dicp:Activity ;
+                    rdfs:label "hasSubActivity" .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Processes#isObjectIn
+dicp:isObjectIn rdf:type owl:ObjectProperty .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Processes#isSubActivityOf
+dicp:isSubActivityOf rdf:type owl:ObjectProperty .
+
+
+###  https://w3id.org/ocqa#hasInspection
+ocqa:hasInspection rdf:type owl:ObjectProperty ;
+                   rdfs:domain ocqa:InspectionPlan ;
+                   rdfs:range ocqa:Inspection ;
+                   rdfs:comment "Eine Beziehung zwischen einem Prüfplan und einer Inspection"@de ;
+                   rdfs:label "hatPrüfung"@de .
+
+
+###  https://w3id.org/ocqa#hasInspectionEquipment
+ocqa:hasInspectionEquipment rdf:type owl:ObjectProperty ;
+                            rdfs:domain ocqa:Inspection ;
+                            rdfs:range ocqa:InspectionEquipment .
+
+
+###  https://w3id.org/ocqa#hasInspectionProcedure
+ocqa:hasInspectionProcedure rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf ocqa:hasProcedure ;
+                            rdfs:domain ocqa:Inspection ;
+                            rdfs:range ocqa:InspectionProcedure .
+
+
+###  https://w3id.org/ocqa#hasProcedure
+ocqa:hasProcedure rdf:type owl:ObjectProperty ;
+                  rdfs:domain dicp:Activity ;
+                  rdfs:range ocqa:Procedure .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.DMN-RDF.org/DMN#hasEndDate
+dmn:hasEndDate rdf:type owl:DatatypeProperty .
+
+
+###  http://www.DMN-RDF.org/DMN#hasFrequency
+dmn:hasFrequency rdf:type owl:DatatypeProperty .
+
+
+###  http://www.DMN-RDF.org/DMN#hasStartDate
+dmn:hasStartDate rdf:type owl:DatatypeProperty .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Materials#hasPHLevel
+dicm:hasPHLevel rdf:type owl:DatatypeProperty ;
+                rdfs:domain dicm:Material ;
+                rdfs:comment "Maximum water PH in a range from 6-8."^^xsd:string ;
+                rdfs:label "hasPHLevel" .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.DMN-RDF.org/DMN#ISCode
+dmn:ISCode rdf:type owl:Class ;
+           rdfs:subClassOf dmn:Norms ;
+           dcterms:description "Indian standard code ."^^xsd:string .
+
+###  http://www.DMN-RDF.org/DMN#one_time
+dmn:one_time rdf:type owl:Class ;
+           rdfs:subClassOf ocqa:InspectionPlan ;
+           dcterms:description "Indian standard code ."^^xsd:string .
+
+###  http://www.DMN-RDF.org/DMN#Inspection_Dimension_of_the_Riser
+dmn:Inspection_Dimension_of_the_Riser rdf:type owl:Class ;
+           rdfs:subClassOf ocqa:Inspection ;
+           dcterms:description "Dimension of the Rise should be 150mm to 180mm."^^xsd:string .
+
+###  http://www.DMN-RDF.org/DMN#Inspection_Number_Of_Risers
+dmn:Inspection_Number_Of_Risers rdf:type owl:Class ;
+           rdfs:subClassOf ocqa:Inspection ;
+           dcterms:description "nuber of steps in each flight should not be greater than 12."^^xsd:string .
+
+
+###  http://www.DMN-RDF.org/DMN#Norms
+dmn:Norms rdf:type owl:Class ;
+          dcterms:description "A building code is a set of rules that specify the standards for constructed objects such as buildings and non-building structures ."^^xsd:string .
+
+
+###  http://www.DMN-RDF.org/DMN#SubActivity
+dmn:SubActivity rdf:type owl:Class ;
+                rdfs:subClassOf dicp:Activity ;
+                rdfs:comment "A process that is intentionally performed by an agent." ;
+                             
+                rdfs:label "SubActivity" .
+                          
+
+
+###  https://w3id.org/digitalconstruction/0.5/Agents#Agent
+dica:Agent rdf:type owl:Class .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Entities#Entity
+dice:Entity rdf:type owl:Class .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Entities#Location
+dice:Location rdf:type owl:Class ;
+              rdfs:subClassOf dice:Site ;
+              rdfs:comment "A (logical) place where material entities can be located or activities can occur. Locations can form a hierarchy, for example, in a location breakdown structure consisting of a site, buildings, floors, zones, spaces, and workspaces" ;
+              rdfs:label "Location" .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Entities#MaterialEntity
+dice:MaterialEntity rdf:type owl:Class .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Entities#Process
+dice:Process rdf:type owl:Class .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Entities#Site
+dice:Site rdf:type owl:Class .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Materials#CompositeMaterial
+dicm:CompositeMaterial rdf:type owl:Class ;
+                       rdfs:subClassOf dicm:Material ;
+                       rdfs:label "CompositeMaterial" .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Materials#Material
+dicm:Material rdf:type owl:Class ;
+              rdfs:subClassOf dice:MaterialEntity ;
+              dcterms:description "a homogeneous or inhomogeneous substance that can be used to form elements (physical products or their components). [ISO 16739]"^^xsd:string ;
+              rdfs:label "Material" .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Materials#MaterialChemicalProperty
+dicm:MaterialChemicalProperty rdf:type owl:Class .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Materials#PHLevel
+dicm:PHLevel rdf:type owl:Class ;
+             rdfs:subClassOf dicm:MaterialChemicalProperty ;
+             rdfs:comment "Maximum water PH in a range from 0-14."^^xsd:string ;
+             rdfs:label "PHLevel" .
+
+
+###  https://w3id.org/digitalconstruction/0.5/Processes#Activity
+dicp:Activity rdf:type owl:Class ;
+              rdfs:subClassOf dice:Process ;
+              rdfs:comment "A process that is intentionally performed by an agent." ;
+              rdfs:label "Activity" .
+
+
+###  https://w3id.org/ocqa#Determination
+ocqa:Determination rdf:type owl:Class .
+
+
+###  https://w3id.org/ocqa#Inspection
+ocqa:Inspection rdf:type owl:Class ;
+                rdfs:subClassOf ocqa:Determination .
+
+
+###  https://w3id.org/ocqa#InspectionEquipment
+ocqa:InspectionEquipment rdf:type owl:Class .
+
+
+###  https://w3id.org/ocqa#InspectionPlan
+ocqa:InspectionPlan rdf:type owl:Class .
+
+
+###  https://w3id.org/ocqa#InspectionProcedure
+ocqa:InspectionProcedure rdf:type owl:Class .
+
+
+###  https://w3id.org/ocqa#Procedure
+ocqa:Procedure rdf:type owl:Class .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
