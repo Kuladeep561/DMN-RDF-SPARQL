@@ -1,15 +1,13 @@
 from pyshacl import validate
 from pylib.DMNParser import *
-from pylib.shacl_validation import *
-from pylib.add_triples import *
+from pylib.create_rule import *
 from pylib.init_classes_and_properties import *
 from pylib.add_triples import *
-from pylib.create_rule import *
 
 
 ### **parse DMN table as xml and create DataFrame**###
 
-dmn_filepath = r"C:\Users\kuk\OneDrive - Technische Universität Ilmenau\Thesis\Camunda\curinginspections_5.dmn"
+dmn_filepath = r"graphs and DMN\curinginspections-new.dmn"
 
 
 parser = DMNParser(dmn_filepath)
@@ -18,16 +16,14 @@ inputs, outputs = parser.extract_inputs_outputs()
 inputs, outputs = parser.FEEL_converter(inputs, outputs)  # Final inputs and Outputs
 
 df_inputs, df_outputs = parser.dmn_as_dataframe(inputs, outputs)  # Convert into dataframes
-#f_io = pd.concat([df_inputs, df_outputs], axis=1)  # Merge two DFs
-
 
 ###!SHACL validation and SPARQL construct based on hit polocy**###
 
 if (hit_policy.lower() == "collect"):
 
-    ontology = Graph().parse("./graphs/DMN-RDF-Dicon-OCQA-Tbox.ttl",
+    ontology = Graph().parse("graphs and DMN\DMN-RDF-Dicon-OCQA-Tbox.ttl",
                              format="ttl")
-    example_building = Graph().parse("./graphs/Duplex_A_20110505_LBD.ttl",
+    example_building = Graph().parse("graphs and DMN\Duplex_A_20110505_LBD.ttl",
                                      format="ttl")
     
     _combined = ontology + example_building
@@ -61,7 +57,7 @@ if (hit_policy.lower() == "collect"):
             print("no matching data")
     combined_graph = _combined + inferred_graph
     combined_graph.serialize(destination="./inferred graphs/new_inspections.ttl", format="ttl")
-    print("Validation hasbeen completed and a graph also created")
+    print("Validation hasbeen completed and a new graph named new_inspections.ttl has generated")
 
 else:
     raise ValueError(f"The hit policy is: {hit_policy}, it is unsupported. The script supports only 'COLLECT'")

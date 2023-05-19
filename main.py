@@ -1,6 +1,5 @@
 from pyshacl import validate
 from pylib.DMNParser import *
-from pylib.shacl_validation import *
 from pylib.add_triples import *
 from pylib.init_classes_and_properties import *
 from pylib.add_triples import *
