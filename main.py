@@ -1,64 +1,60 @@
-from pyshacl import validate
 from pylib.DMNParser import *
-from pylib.shacl_validation import *
-from pylib.add_triples import *
+from pylib.create_rule import *
 from pylib.init_classes_and_properties import *
 from pylib.add_triples import *
 
 ### **parse DMN table as xml and create DataFrame**###
 
-dmn_filepath = r"C:\Users\kuk\OneDrive - Technische Universität Ilmenau\Thesis\Camunda\curinginspections_4.dmn"
-
-
+dmn_filepath = r"graphs and DMN\curinginspections.dmn"
 parser = DMNParser(dmn_filepath)
 hit_policy = parser.extract_hit_policy()  # get DMN hit policy
 inputs, outputs = parser.extract_inputs_outputs()
-inputs, outputs = parser.FEEL_converter(
-    inputs, outputs)  # Final inputs and Outputs
+inputs, outputs = parser.FEEL_converter(inputs, outputs)  # Final inputs and Outputs
 
-df_inputs, df_outputs = parser.dmn_as_dataframe(
-    inputs, outputs)  # Convert into dataframes
-df_io = pd.concat([df_inputs, df_outputs], axis=1)  # Merge two DFs
-
+df_inputs, df_outputs = parser.dmn_as_dataframe(inputs, outputs)  # Convert into dataframes
 
 ###!SHACL validation and SPARQL construct based on hit polocy**###
 
 if (hit_policy.lower() == "collect"):
 
-    ontology = Graph().parse("./graphs/DMN-RDF-Dicon-OCQA-Tbox.ttl",
-                             format="ttl")  # parse ontology graph into memory
-    g = Graph()  # initialize emptz graph to store individuals
-
-    namespace = dict(ontology.namespaces())
+    ontology = Graph().parse("graphs and DMN\DMN-RDF-Dicon-OCQA-Tbox.ttl",
+                             format="ttl")
+    example_building = Graph().parse("graphs and DMN\Duplex_A_20110505_LBD.ttl",
+                                     format="ttl")
+    
+    _combined = ontology + example_building
+    namespace = dict(_combined.namespaces())
     ns = {k: Namespace(v) for k, v in namespace.items()}
-    for prefix, uri in namespace.items():  # Bind the namespaces with their prefixes in dmn_Abox
-        g.bind(prefix, uri)
-
+    
     classes, literals, relationships = init_classes_and_properties(ns)
-    create_individuals(df_io, g, classes)
-    DMN_graph = link_individuals(
-        df_io, g, ns, classes, relationships, literals)
-    # serialize the Abox into ttl file
-    DMN_graph.serialize("./inferred graphs/DMN-RDF-Abox.ttl", format='turtle')
 
-    example_building = Graph().parse("./graphs/Duplex_A_20110505_LBD.ttl",
-                                     format="ttl")  # Load  example files
-    combined_graph = ontology + DMN_graph + example_building  # Combine the graphs
-    rules_graph = Graph().parse("./graphs/WaterCuringRule.ttl",
-                                format="ttl")  # Load the SHACL rules graph
+    inferred_graph = Graph()
+    for index, row in df_inputs.iterrows():
+        g1 = Graph()  # Initialize the graph for the current row
+        
+        create_individuals_for_row(row,g1,classes)
+        _combined = _combined + g1
+        query = generate_select_query(row, classes, ns)
+        query_result = _combined.query(query)
 
-    # Validate the combined graph and apply the rules
-    conforms, inferred_graph, string = validate(combined_graph, shacl_graph=rules_graph,
-                                                data_graph_format='turtle', shacl_graph_format='turtle',
-                                                debug=True, advanced=True, inplace=True)
+        if(query_result):
+            output_row = df_outputs.iloc[index]
+            
+            create_individuals_for_row(output_row,g1, classes)          
+            g1 = link_individual_for_row(row, g1, ns, classes, relationships, literals)
+            subjects = [row[0] for row in query_result]
+            construct_query = generate_construct_query(subjects, ns)
+            
+            construct_query_result = g1.query(construct_query)
+            inferred_graph+=g1
+            inferred_graph+=construct_query_result
 
-    # Merge the original graph with the inferred graph
-    new_graph = combined_graph + inferred_graph
-
-    # Save the new graph to a new file
-    new_graph.serialize(
-        destination="./inferred graphs/Inferred_WaterCuring_inspections.ttl", format="ttl")
+        else:
+            print("no matching data")
+    combined_graph = _combined + inferred_graph
+    combined_graph.serialize(destination="./inferred graphs/new_inspections.ttl", format="ttl")
+    print("Validation hasbeen completed and a new graph named new_inspections.ttl has generated")
 
 else:
-    raise ValueError(
-        f"The hit policy is: {hit_policy}, it is unsupported. The script supports only 'COLLECT'")
+    raise ValueError(f"The hit policy is: {hit_policy}, it is unsupported. The script supports only 'COLLECT'")
+

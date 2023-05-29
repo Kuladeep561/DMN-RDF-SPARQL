@@ -60,68 +60,6 @@ class DMNParser:
 
         return self.inputs, self.outputs
     
-
-    def is_feel_expression(self, expression: str) -> bool:
-        pattern = r'date and time\(.*?\)\s*[+-]\s*duration\(.*?\)'
-        return bool(re.search(pattern, expression))
-    
-    def extract_referenced_column(self, feel_expression: str) -> str:
-        return re.search(r'\((.*?)\)', feel_expression).group(1)
-    
-    def FEEL_converter(self, input_data: Dict[str, List[str]] = None, output_data: Dict[str, List[str]] = None) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
-        
-        if input_data is None and output_data is None:      
-            input_data, output_data = self.inputs, self.outputs
-        else:
-              input_data, output_data = input_data, output_data
-
-        updated_output_data = {key: [] for key in output_data.keys()}
-        max_length = max(len(value_list) for value_list in output_data.values())
-        
-    
-        for i in range(max_length):
-            for key, value_list in output_data.items():
-                if i < len(value_list):
-                    value = value_list[i]
-
-                    if self.is_feel_expression(value):
-                        column_name = self.extract_referenced_column(value)
-                        duration_str = re.search(r'duration\("(.*?)"\)', value).group(1)
-                        operation_match = re.search(r'([+-])', value)
-
-                        if operation_match is None:
-                            raise UnsupportedArithmeticOperation(f"Unsupported arithmetic operation in the expression: {value}")
-
-                        operation = operation_match.group(1)
-
-                        activity_start_date_str = re.search(r'"(.*?)"', input_data[column_name][i]).group(1)
-                        
-                        activity_start_date = datetime.fromisoformat(activity_start_date_str.replace("Z", "+00:00"))
-
-                        duration_days = int(duration_str[1:-1])
-                        if operation == "+":
-                            new_date = activity_start_date + timedelta(days=duration_days)
-                        elif operation == "-":
-                            new_date = activity_start_date - timedelta(days=duration_days)
-                        else:
-                            raise UnsupportedArithmeticOperation(f"Unsupported arithmetic operation: {operation}")
-
-                        new_date_str = new_date.replace(tzinfo=None).isoformat() + "Z"
-                        updated_output_data[key].append(new_date_str)
-
-
-                    elif (match := re.search(r'"(.*?)"', value)) is not None:
-                        updated_output_data[key].append(match.group(1))
-                    else:
-                        updated_output_data[key].append(value)
-
-                # Update the input_data dictionary by removing the 'date and time()' wrapper from the date string           
-            input_data[column_name][i] = activity_start_date_str
-
-        return input_data, updated_output_data
-
-    
-    
     def extract_text_between_parentheses(self, input_val=None, output_val=None):
 
         if input_val is None:
@@ -142,6 +80,61 @@ class DMNParser:
                     output_val[key][i] = match.group(1)
 
         return input_val, output_val
+    
+    def is_feel_expression(self, expression: str) -> bool:
+        pattern = r'date and time\(.*?\)\s*[+-]\s*duration\(.*?\)'
+        return bool(re.search(pattern, expression))
+    
+    def extract_referenced_column(self, feel_expression: str) -> str:
+        return re.search(r'\((.*?)\)', feel_expression).group(1)
+    
+    def FEEL_converter(self, input_data: Dict[str, List[str]] = None, output_data: Dict[str, List[str]] = None) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
+        if input_data is None and output_data is None:      
+            input_data, output_data = self.inputs, self.outputs
+        else:
+              input_data, output_data = input_data, output_data
+
+        updated_output_data = {key: [] for key in output_data.keys()}
+        max_length = max(len(value_list) for value_list in output_data.values())
+        regex = r'"(.*?)"' #expression to find value between paranthesis
+        for i in range(max_length):
+            for key, value_list in output_data.items():
+                if i < len(value_list):
+                    value = value_list[i]
+
+                    if self.is_feel_expression(value):
+                        column_name = self.extract_referenced_column(value)
+                        duration_str = re.search(r'duration\("(.*?)"\)', value).group(1)
+                        operation_match = re.search(r'([+-])', value)
+
+                        if operation_match is None:
+                            raise UnsupportedArithmeticOperation(f"Unsupported arithmetic operation in the expression: {value}")
+
+                        operation = operation_match.group(1)
+                        #input_search = re.search(regex, input_data[column_name][i])
+                        #output_search = re.search(regex, output_data[column_name][i])
+                        if (column_name in input_data.keys()):
+                            activity_start_date_str = re.search(regex, input_data[column_name][i]).group(1)
+                        elif (column_name in output_data.keys()):
+                            activity_start_date_str = re.search(regex, output_data[column_name][i]).group(1)
+
+                        activity_start_date = datetime.fromisoformat(activity_start_date_str.replace("Z", "+00:00"))
+                        duration_days = int(duration_str[1:-1])
+                        if operation == "+":
+                            new_date = activity_start_date + timedelta(days=duration_days)
+                        elif operation == "-":
+                            new_date = activity_start_date - timedelta(days=duration_days)
+                        else:
+                            raise UnsupportedArithmeticOperation(f"Unsupported arithmetic operation: {operation}")
+                        new_date_str = new_date.replace(tzinfo=None).isoformat() + "Z"
+                        updated_output_data[key].append(new_date_str)
+                    elif (match := re.search(regex, value)) is not None:
+                        updated_output_data[key].append(match.group(1))
+                    else:
+                        updated_output_data[key].append(value)
+        inputs, outputs = self.extract_text_between_parentheses(input_data, updated_output_data)
+        return(inputs, outputs)
+
 
     def dmn_as_dataframe(self, input_val, output_val):
 
