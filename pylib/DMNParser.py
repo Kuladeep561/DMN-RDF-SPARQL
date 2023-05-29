@@ -89,7 +89,6 @@ class DMNParser:
         return re.search(r'\((.*?)\)', feel_expression).group(1)
     
     def FEEL_converter(self, input_data: Dict[str, List[str]] = None, output_data: Dict[str, List[str]] = None) -> Tuple[Dict[str, List[str]], Dict[str, List[str]]]:
-        
         if input_data is None and output_data is None:      
             input_data, output_data = self.inputs, self.outputs
         else:
@@ -98,8 +97,6 @@ class DMNParser:
         updated_output_data = {key: [] for key in output_data.keys()}
         max_length = max(len(value_list) for value_list in output_data.values())
         regex = r'"(.*?)"' #expression to find value between paranthesis
-        
-    
         for i in range(max_length):
             for key, value_list in output_data.items():
                 if i < len(value_list):
@@ -122,7 +119,6 @@ class DMNParser:
                             activity_start_date_str = re.search(regex, output_data[column_name][i]).group(1)
 
                         activity_start_date = datetime.fromisoformat(activity_start_date_str.replace("Z", "+00:00"))
-
                         duration_days = int(duration_str[1:-1])
                         if operation == "+":
                             new_date = activity_start_date + timedelta(days=duration_days)
@@ -130,17 +126,12 @@ class DMNParser:
                             new_date = activity_start_date - timedelta(days=duration_days)
                         else:
                             raise UnsupportedArithmeticOperation(f"Unsupported arithmetic operation: {operation}")
-
                         new_date_str = new_date.replace(tzinfo=None).isoformat() + "Z"
                         updated_output_data[key].append(new_date_str)
-
-
                     elif (match := re.search(regex, value)) is not None:
                         updated_output_data[key].append(match.group(1))
                     else:
                         updated_output_data[key].append(value)
-           
-
         inputs, outputs = self.extract_text_between_parentheses(input_data, updated_output_data)
         return(inputs, outputs)
 
